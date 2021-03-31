@@ -1,0 +1,8 @@
+@import '../font/iconfont.css';
+.content{
+    color: red;
+}
+.bg-img{
+    background-image: url(../img/img2.png);
+    background-size: contain;
+}
