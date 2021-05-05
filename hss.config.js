@@ -3,13 +3,19 @@ var { CleanWebpackPlugin } = require('clean-webpack-plugin')
 var copyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var { DefinePlugin } = require('webpack')
+var VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
+    // watch: true,    //模拟devserve
     mode: 'development',
+    devtool: 'source-map',
     entry: './src/main.js',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, './dist'),
         // assetModuleFilename:"img/[name]-[hash:6].[ext]"
+    },
+    devServer: {
+        hot: true,
     },
     module: {
         rules: [
@@ -65,6 +71,12 @@ module.exports = {
                 generator: {
                     filename: 'font/[name]-[hash:6][ext]'
                 },
+            },
+            {
+                test: /\.vue$/,
+                use: [
+                    { loader: 'vue-loader' },
+                ]
             }
         ]
     },
@@ -74,8 +86,8 @@ module.exports = {
             title: 'hss-webpack5',
             template: './public/index.html'
         }),    // 自动生成index.html,引入打包的js
-        new DefinePlugin({
-            BASE_URL: "'./'"
+        new DefinePlugin({  //定义全局变量
+            BASE_URL: "'./'"    //public下的index.html里面的icon的路径
         }),
         new copyWebpackPlugin({
             patterns: [
@@ -89,6 +101,7 @@ module.exports = {
                     }
                 }
             ]
-        })
+        }),
+        new VueLoaderPlugin()   //解析vue
     ]
 }

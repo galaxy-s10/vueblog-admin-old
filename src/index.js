@@ -1,0 +1,1 @@
+console.log('src下的index.js')

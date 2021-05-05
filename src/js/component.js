@@ -9,8 +9,8 @@ function component() {
 
     // 创建一个img元素
     var imgEle = new Image()
-    // imgEle.src = require('../img/img1.jpg').default
-    imgEle.src = require('../img/img1.jpg')
+    // imgEle.src = require('../img/img1.png').default
+    imgEle.src = require('../img/img1.png')
     ele.appendChild(imgEle)
 
     // 创建一个放背景图的div
