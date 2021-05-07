@@ -1,23 +1,25 @@
 <template>
-  <div style="background: green">
-    <h1>我是foo组件</h1>
-    我是foo
+  <div>
+    {{arr}}
+    {{obj}}
+    <button @click="change">点我</button>
   </div>
 </template>
 
 <script>
 export default {
-  components: {},
-  props: {},
   data() {
-    return {};
+    return {
+      arr: ["11", "22"],
+      obj: { name: 123 }
+    };
   },
-  created() {},
-  mounted() {},
-  computed: {},
-  methods: {},
+  methods: {
+    change() {
+      console.log("change");
+      this.arr[1] = new Date().getTime() + 12345;
+      // this.obj.name = new Date().getTime();
+    }
+  }
 };
 </script>
-
-<style scoped>
-</style>
