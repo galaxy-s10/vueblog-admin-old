@@ -1,0 +1,1 @@
+console.log('我是little3.js')
