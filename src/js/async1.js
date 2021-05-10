@@ -1,5 +1,3 @@
-// import $ from './jq'
-// console.log($)
 console.log('我是async1.js')
 console.log('我是async1.js')
 console.log('我是async1.js')
