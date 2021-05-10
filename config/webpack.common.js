@@ -20,6 +20,9 @@ const commonConfig = {
       import: './src/main.js',
       // filename: 'output-[name]-bundle.js'
     },
+    // main: [
+    //   './src/main.js'
+    // ]
     // index: {
     //   import: './src/index.js',
     //   // filename: 'output-[name]-bundle.js'
@@ -51,39 +54,57 @@ const commonConfig = {
      * 比如：splitChunks.chunks:'async'等等，即会将异步代码抽离！
      */
     splitChunks: {  //对入口文件进行代码分离
-      chunks: "all",  //同步和异步代码都进行代码分离
-      minChunks: 1, //模块被不同entry引用的次数大于等于才能分割。
-      // 如果minSize和maxSize冲突（即非法，如minSize:200,maxSize:100），优先级：maxSize < minSize
-      minSize: 30000,  //如果设置了mode: 'production'，miniSize默认就是30000！生成 chunk 的最小体积
-      maxSize: 40000,  //尝试将大于maxSize的chunk分割成较小的部分chunks。如果设置了initial或者all，建议必须设置maxSize，否则同步代码不会抽离！
+      chunks: 'all',  //async,initial,all
+      minSize: 10 * 1024, //生成 chunk 的最小体积。默认：20000。
+      // maxSize: 10 * 1024,
+      // minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30, //按需加载时的最大并行请求数。默认：30
+      maxInitialRequests: 30, //按需加载时的最大并行请求数。默认：30
+      /**
+       * enforceSizeThreshold：强制执行拆分的体积阈值和其他限制（minRemainingSize，maxAsyncRequests，maxInitialRequests）将被忽略。
+       * 即拆分的包大小范围允许在这个阈值范围，即设置minSize:20 * 1024，enforceSizeThreshold: 10 * 1024，
+       * 允许拆分的包在10kb-30kb之间！
+       */
+      enforceSizeThreshold: 1 * 1024,  //默认：50000byte
       filename: "[id]-splitChunks.js",
+      // chunks: "all",  //同步和异步代码都进行代码分离
+      // minChunks: 1, //模块被不同entry引用的次数大于等于才能分割。
+      // // 如果minSize和maxSize冲突（即非法，如minSize:200,maxSize:100），优先级：maxSize < minSize
+      // minSize: 3 * 1024,  //如果设置了mode: 'production'，miniSize默认就是30000！生成 chunk 的最小体积
+      // // maxSize: 40000,  //尝试将大于maxSize的chunk分割成较小的部分chunks。如果设置了initial或者all，建议必须设置maxSize，否则同步代码不会抽离！
+      // filename: "[id]-splitChunks.js",
       // 缓存组可以继承和/或覆盖来自 splitChunks.* 的任何选项
       // 即如果匹配到缓存缓存组里的某一个，如vendor，vendor里的设置会对splitChunks的设置进行继承或覆盖
       // 即vendor里没有设置chunks，vendor就会继承splitChunks的chunks，vendor设置了filename，会覆盖splitChunks的filename
       cacheGroups: {  //cacheGroups里的优先级默认比外面的高
-        // vendor: {
-        //   test: /[\\/]node_modules[\\/]/,
-        //   filename: "[id]-vendors.js",
-        //   priority: -10
-        // },
-        // default: {
-        //   // minChunks: 2,
-        //   // chunks:'async',
-        //   filename: "[id]-common.js",
-        //   priority: -20
-        // },
+        // defaultVendors:false,  //禁用默认webpack默认设置的defaultVendors缓存组
+        // default:false, //禁用默认webpack默认设置的default缓存组
+        defaultVendors: {
+          chunks: 'all',
+          test: /[\\/]node_modules[\\/]/,
+          filename: '[name]-defaultVendors.js',
+          priority: -10,  //优先级，优先使用优先级高的缓存组
+          reuseExistingChunk: true,
+        },
+        default: {
+          chunks: 'all',
+          filename: '[name]-default.js',
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
         test: {
-          // chunks:'all',
+          chunks: 'all',
           // test: /[\\/]src[\\/]lib[\\/]/,
-          minChunks: 1,
           filename: "[id]-test.js",
           /**
            * 自定义组的优先级默认值为 0,即如果不设置自定义组的优先级，默认就是0，
-           * 即上面设置的vendor，default，因为都设置了优先级是负数，
-           * 所以上面设置的vendor，default都不会生效！
+           * 即上面设置的defaultVendors，default，因为都设置了优先级是负数，
+           * 所以上面设置的defaultVendors，default都不会生效！
            */
-          // priority: -30  //这里注释了优先级，即让test的优先级最高，如果不注释优先级，test的优先级就是最低的
-        }
+          priority: -30
+        },
       }
     }
   },
@@ -163,11 +184,11 @@ const commonConfig = {
     ]
   },
   plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'server',
-      generateStatsFile: true,
-      statsOptions: { source: false }
-    }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: 'server',
+    //   generateStatsFile: true,
+    //   statsOptions: { source: false }
+    // }),
     new HtmlWebpackPlugin({ // 自动生成index.html文件(并引入打包的js)
       title: 'hss-webpack5',
       template: './public/index.html',

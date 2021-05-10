@@ -17,6 +17,8 @@
 
 // console.log('import是编译时调用，因此会先执行所有import，再执行这里')
 
+import Vue from 'vue';
+console.log(Vue);
 import little1 from './js/little1'    //同步导入
 import little2 from './js/little2'    //同步导入
 // // import twenty_kb from './js/twenty_kb'    //同步导入，import是编译时调用，即编译完成执行的时候，import就已经确定了，约等于提升，放到了顶部！

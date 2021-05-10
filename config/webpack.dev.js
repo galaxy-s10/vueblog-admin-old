@@ -5,7 +5,7 @@ const isProduction = false;
 // console.log("加载开发时的配置文件");
 
 module.exports = {
-  mode: "development",
+  // mode: "development",
   devtool: 'source-map',
   devServer: {
     hot: true,  // hrm，开启模块热替换
