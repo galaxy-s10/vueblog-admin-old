@@ -25,6 +25,10 @@ import little2 from './js/little2'    //同步导入
 // import fifty_kb from './js/fifty_kb'    //同步导入
 // import sixty_kb from './js/sixty_kb'    //同步导入
 
+import('./js/little3.js').then(res=>{
+    console.log('异步/动态导入little3');
+    console.log(res);
+})
 
 // console.log('我是main.js里引入的fifty_kb',fifty_kb)
 // // import('./js/jq')   //异步导入
