@@ -5,6 +5,7 @@ const isProduction = true;
 
 module.exports = {
   // mode: "production",
+  // devtool: 'source-map',
   plugins: [
     new CleanWebpackPlugin({}), // 自动删除生成的dist文件夹
   ]

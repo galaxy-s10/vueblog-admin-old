@@ -9,9 +9,16 @@
 </head>
 
 <body>
-  <div>
+  <div class="aaa">
     我是hss_webpack5根目录下的index.html
   </div>
+  <button onClick="aaa()">a</button>
+  <script>
+    function aaa(){
+      let a = document.getElementsByClassName('aaa')[0]
+      a.setAttribute('class','cc')
+    }
+  </script>
 </body>
 
 </html>

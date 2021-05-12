@@ -16,9 +16,11 @@ export default {
   },
   methods: {
     change() {
+      debugger
       console.log("change");
-      this.arr[1] = new Date().getTime() + 12345;
-      // this.obj.name = new Date().getTime();
+      // this.arr[1] = new Date().getTime() + 12345;
+      this.obj.name = new Date().getTime();
+      console.log('11111');
     }
   }
 };
