@@ -18,21 +18,27 @@
 // console.log('import是编译时调用，因此会先执行所有import，再执行这里')
 
 import Vue from 'vue';
-console.log(Vue);
-import little1 from './js/little1'    //同步导入
-import little2 from './js/little2'    //同步导入
-// // import twenty_kb from './js/twenty_kb'    //同步导入，import是编译时调用，即编译完成执行的时候，import就已经确定了，约等于提升，放到了顶部！
+console.log(Vue, 1111111);
+// import little1 from './js/little1'    //同步导入
+// import little2 from './js/little2'    //同步导入
+// import twenty_kb from './js/twenty_kb'    //同步导入，import是编译时调用，即编译完成执行的时候，import就已经确定了，约等于提升，放到了顶部！
 // import fifty_kb from './js/fifty_kb'    //同步导入
 // import sixty_kb from './js/sixty_kb'    //同步导入
 
-import('./js/little3.js').then(res=>{
-    console.log('异步/动态导入little3');
-    console.log(res);
-})
+import('./js/jq').then(res => {
+    console.log('引入jq成功！')
+})   //异步导入
+// import './js/jq'    //同步引入
+const $ = require('./js/jq')
+import './lib/utils'
+
+console.log($('body'))
 
 // console.log('我是main.js里引入的fifty_kb',fifty_kb)
-// // import('./js/jq')   //异步导入
-// // import('./js/little')   //异步导入
+
+
+// import('./js/little1')   //异步导入
+// import('./js/little3')   //异步导入
 
 
 // // import cpt from './js/component'
