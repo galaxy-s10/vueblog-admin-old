@@ -36,10 +36,10 @@ const commonConfig = {
      * 如果一个模块既被同步引了，又被异步引入了，不管顺序（即不管是先同步引入再异步引入，还是先异步引入在同步引入），
      * 这个模块会打包进bundle.js，而不会单独抽离出来。
      */
-    chunkFilename: "[name]-[hash:6]-bundle-chunk.js", 
+    chunkFilename: "[name]-[hash:6]-bundle-chunk.js",
     path: path.resolve(__dirname, '../dist'),
     assetModuleFilename: "assets/[name]-[hash:6].[ext]", //静态资源生成目录（不管什么资源默认都统一生成到这里,除非单独设置了generator）
-    // publicPath: "/abc" //output的publicPath建议与devServer的publicPath一致
+    // publicPath: "/abc" //output的publicPath建议与devServer的publicPath一致，还可设置cdn地址。
   },
   resolve: {  //解析路径
     extensions: [".wasm", ".mjs", ".js", ".json", ".jsx", ".ts", ".vue"], //解析扩展名
@@ -60,21 +60,37 @@ const commonConfig = {
      * 比如：splitChunks.chunks:'async'等等，即会将异步代码抽离！
      */
     splitChunks: {  //对入口文件进行代码分离
-      // chunks: 'all',  //async,initial,all
-      // 如果minSize和maxSize冲突（即非法，如minSize:200,maxSize:100）控制台会报错。优先级：maxSize < minSize
-      minSize: 10 * 1024, //生成 chunk 的最小体积。默认：20000。
-      // maxSize: 10 * 1024,  //尝试将大于maxSize的chunk分割成较小的部分chunks。如果设置了initial或者all，建议必须设置maxSize，否则同步代码不会抽离！
+      chunks: 'all',  //async,initial,all
+      minSize: 20 * 1024, //生成 chunk 的最小体积。默认：20000（19.5kb）
+      /**
+       * maxSize:尝试将大于maxSize的chunk分割成较小的部分chunks。
+       * 官网写的默认值是0，但是，实际测试：如果在chunks:async的时候，确实这个属性会生效，会将异步代码配合minSize进行抽离；
+       * 但是如果在chunks:initial或all的时候，如果不手动添加maxSize属性，就不会将同步代码配合minSize进行抽离！
+       * 因此，如果希望maxSize可以对同步和异步代码都进行分离，就手动设置maxSize:0，或者手动设置maxSize为自己需要设置的值，
+       * 但一定不能不写这个maxSize!最起码也得写一个maxSize:0，虽然这样写会报警告，或者直接写maxSize的值和minSize值一样！
+       */
+      maxSize: 0,   //不写maxSize默认就是0，这里手动设置0
+      // maxSize: 30 * 1024,
       // minRemainingSize: 0, //???
-      minChunks: 1, //模块被不同entry引用的次数大于等于才能分割。
-      maxAsyncRequests: 30, //按需加载时的最大并行请求数。默认：30
-      maxInitialRequests: 30, //按需加载时的最大并行请求数。默认：30
+      // minChunks: 1, //模块被不同entry引用的次数大于等于才能分割。
+      // maxAsyncRequests: 30, //按需加载时的最大并行请求数。默认：30
+      // maxInitialRequests: 30, //按需加载时的最大并行请求数。默认：30
       /**
        * enforceSizeThreshold：强制执行拆分的体积阈值和其他限制（minRemainingSize，maxAsyncRequests，maxInitialRequests）将被忽略。
        * 即拆分的包大小范围允许在这个阈值范围，即设置minSize:20 * 1024，enforceSizeThreshold: 10 * 1024，
        * 允许拆分的包在10kb-30kb之间！
        */
-      enforceSizeThreshold: 1 * 1024,  //默认：50000byte
-      // filename: "[id]-splitChunks.js", //不建议全局设置filename
+      // enforceSizeThreshold: 1 * 1024,  //默认：50000byte
+      /**
+       * 不建议全局设置filename，因为如果缓存组没有手动设置filename，默认缓存组会继承全局
+       * 的filename，这样在某些情况会显得很奇葩，比如：全局设置了chunks:'async'，filename:'[id]-asyncChunks.js',
+       * 而缓存组设置了一个chunks:'initial',且没有设置它的filename，那么最终打包会先匹配缓存组，然后匹配
+       * 到同步代码就抽离，然后设置filename，由于这个缓存组没有设置它的filename，因此会继承全局的filename，
+       * 因此就会把同步代码抽离后叫[id]-asyncChunks.js，虽然还是一样把代码抽离出来了，但是
+       * 抽离出来的文件和文件名"货不对板"，做不到见名知意，这样就很别扭了。因此如果设置设置了全局的filename，那
+       * 么最好就是每一个缓存组都设置自己的filename，这样就可以和全局的进行区分了
+       */
+      // filename: "[id]-splitChunks.js", //默认[name]-bundle.js
       /**
        * 缓存组可以继承和/或覆盖来自 splitChunks.* 的任何选项
        * 即如果匹配到缓存缓存组里的某一个，如vendor，vendor里的设置会对splitChunks的设置进行继承或覆盖
@@ -82,30 +98,26 @@ const commonConfig = {
        */
       cacheGroups: {  //cacheGroups里的优先级默认比外面的高
         // defaultVendors:false,  //禁用默认webpack默认设置的defaultVendors缓存组
-        // default:false, //禁用默认webpack默认设置的default缓存组
-        defaultVendors: {
+        // defa ult:false, //禁用默认webpack默认设置的default缓存组
+        defaultVendors: { //重写默认的defaultVendors
           chunks: 'all',
           test: /[\\/]node_modules[\\/]/,
           filename: '[name]-defaultVendors.js',
-          priority: -10,  //优先级，优先使用优先级高的缓存组
+          priority: -10,
         },
-        default: {  //这是webpack4的默认设置
+        default: {  //重写默认的default
           chunks: 'all',
           filename: '[name]-default.js',
-          minChunks: 2,
+          minChunks: 2, //至少被minChunks个入口文件引入了minChunks次。
           priority: -20,
         },
-        test: {
-          chunks: 'all',
-          // test: /[\\/]src[\\/]lib[\\/]/,
-          filename: "[id]-test.js",
-          /**
-           * 自定义组的优先级默认值为 0,即如果不设置自定义组的优先级，默认就是0，
-           * 即上面设置的defaultVendors，default，因为都设置了优先级是负数，
-           * 所以上面设置的defaultVendors，default都不会生效！
-           */
-          priority: -30
-        },
+        // 这里动态代码会匹配到这里，会使用[id]-test.js作为文件名
+        // 注释了test缓存组后，动态代码就会使用output.chunkFilename或output.filename
+        // test: {  
+        //   chunks: 'all',
+        //   filename: "[id]-test.js",
+        //   priority: -30
+        // },
       }
     }
   },
