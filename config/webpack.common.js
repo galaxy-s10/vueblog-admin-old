@@ -29,14 +29,14 @@ const commonConfig = {
     // },
   },
   output: {
-    filename: '[name]-bundle.js', //入口文件打包生成后的文件的文件名
+    filename: 'js/[name]-bundle.js', //入口文件打包生成后的文件的文件名
     /**
      * 入口文件中，符合条件的代码，被抽离出来后生成的文件的文件名
      * 如：动态(即异步)导入，默认不管大小，是一定会被单独抽离出来的。
      * 如果一个模块既被同步引了，又被异步引入了，不管顺序（即不管是先同步引入再异步引入，还是先异步引入在同步引入），
      * 这个模块会打包进bundle.js，而不会单独抽离出来。
      */
-    chunkFilename: "[name]-[hash:6]-bundle-chunk.js",
+    chunkFilename: "js/[name]-[hash:6]-bundle-chunk.js",
     path: path.resolve(__dirname, '../dist'),
     assetModuleFilename: "assets/[name]-[hash:6].[ext]", //静态资源生成目录（不管什么资源默认都统一生成到这里,除非单独设置了generator）
     // publicPath: "/abc" //output的publicPath建议与devServer的publicPath一致，还可设置cdn地址。
@@ -60,8 +60,8 @@ const commonConfig = {
      * 比如：splitChunks.chunks:'async'等等，即会将异步代码抽离！
      */
     splitChunks: {  //对入口文件进行代码分离
-      chunks: 'all',  //async,initial,all
-      minSize: 20 * 1024, //生成 chunk 的最小体积。默认：20000（19.5kb）
+      // chunks: 'all',  //async,initial,all
+      // minSize: 20 * 1024, //生成 chunk 的最小体积。默认：20000（19.5kb）
       /**
        * maxSize:尝试将大于maxSize的chunk分割成较小的部分chunks。
        * 官网写的默认值是0，但是，实际测试：如果在chunks:async的时候，确实这个属性会生效，会将异步代码配合minSize进行抽离；
@@ -69,7 +69,7 @@ const commonConfig = {
        * 因此，如果希望maxSize可以对同步和异步代码都进行分离，就手动设置maxSize:0，或者手动设置maxSize为自己需要设置的值，
        * 但一定不能不写这个maxSize!最起码也得写一个maxSize:0，虽然这样写会报警告，或者直接写maxSize的值和minSize值一样！
        */
-      maxSize: 0,   //不写maxSize默认就是0，这里手动设置0
+      // maxSize: 0,   //不写maxSize默认就是0，这里手动设置0
       // maxSize: 30 * 1024,
       // minRemainingSize: 0, //???
       // minChunks: 1, //模块被不同entry引用的次数大于等于才能分割。
@@ -100,20 +100,22 @@ const commonConfig = {
         // defaultVendors:false,  //禁用默认webpack默认设置的defaultVendors缓存组
         // defa ult:false, //禁用默认webpack默认设置的default缓存组
         defaultVendors: { //重写默认的defaultVendors
-          chunks: 'all',
+          chunks: 'initial',
+          // minSize: 50 * 1024,
+          // maxSize: 50 * 1024,
           test: /[\\/]node_modules[\\/]/,
-          filename: '[name]-defaultVendors.js',
+          filename: 'js/[name]-defaultVendors.js',
           priority: -10,
         },
         default: {  //重写默认的default
           chunks: 'all',
-          filename: '[name]-default.js',
+          filename: 'js/[name]-default.js',
           minChunks: 2, //至少被minChunks个入口文件引入了minChunks次。
           priority: -20,
         },
         // 这里动态代码会匹配到这里，会使用[id]-test.js作为文件名
         // 注释了test缓存组后，动态代码就会使用output.chunkFilename或output.filename
-        // test: {  
+        // test: {
         //   chunks: 'all',
         //   filename: "[id]-test.js",
         //   priority: -30
@@ -123,6 +125,13 @@ const commonConfig = {
   },
   module: {
     rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        }
+      },
       {
         test: /\.css$/,
         use: [
@@ -166,7 +175,7 @@ const commonConfig = {
       //     ]
       // },
       {
-        test: /\.(jpg|jpeg|png|gif)$/,
+        test: /\.(jpg|jpeg|png|gif|svg)$/,
         // type: 'asset/resource', // 约等于实现file-loader
         // generator:{
         //     filename:'img/[name]-[hash:6].[ext]'
@@ -246,7 +255,7 @@ module.exports = function (env) {
 
   const config = isProduction ? prodConfig : devConfig;
   const mergeConfig = merge(commonConfig, config);  //根据当前环境，合并配置文件
-  console.log(mergeConfig)
+  // console.log(mergeConfig)
 
   return mergeConfig;
 };

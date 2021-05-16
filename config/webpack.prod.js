@@ -3,6 +3,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const PurgeCssPlugin = require('purgecss-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
 const glob = require('glob')
 const webpack = require('webpack');
 const path = require("path");
@@ -16,6 +17,12 @@ module.exports = {
   // devtool: 'source-map',
   externals: {
     vue: "Vue",
+    vuex: 'Vuex',
+    'vue-router': 'VueRouter',
+    axios: 'axios',
+    less: 'less',
+    echarts: 'echarts',
+    iview: 'iview',
   },
   optimization: {
     usedExports: true, // production模式或者不设置usedExports，它默认就是true。usedExports的目的是标注出来哪些函数是没有被使用 unused，会结合Terser进行处理
@@ -54,19 +61,19 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin({}), // 自动删除生成的dist文件夹
     // new CssMinimizerPlugin(), // css压缩，去除无用的空格等等
-    // new webpack.optimize.ModuleConcatenationPlugin(), //作用域提升
-    new PurgeCssPlugin({  //css的Tree Shaking
-      /**
-       * 实际测试很多bug,比如html里面有ul这个元素，css里面的.ul{}，#ul{}，ul{}都会打包进去？？？
-       * 在js文件里如果有给元素添加类，但是注释了，如：// divEle.className='test123'，但是这个.test123一样会打包进去，得手动删除这行代码才行！
-       */
-      paths: glob.sync(`${path.resolve(__dirname, '../src')}/**/*`, { nodir: true }),
-      safelist: function () {
-        return {
-          standard: ["body", "html"]
-        }
-      }
-    }),
+    new webpack.optimize.ModuleConcatenationPlugin(), //作用域提升
+    // new PurgeCssPlugin({  //css的Tree Shaking
+    //   /**
+    //    * 实际测试很多bug,比如html里面有ul这个元素，css里面的.ul{}，#ul{}，ul{}都会打包进去？？？
+    //    * 在js文件里如果有给元素添加类，但是注释了，如：// divEle.className='test123'，但是这个.test123一样会打包进去，得手动删除这行代码才行！
+    //    */
+    //   paths: glob.sync(`${path.resolve(__dirname, '../src')}/**/*`, { nodir: true }),
+    //   safelist: function () {
+    //     return {
+    //       standard: ["body", "html"]
+    //     }
+    //   }
+    // }),
     new CompressionPlugin({ //http压缩
       test: /\.(css|js)$/i,
       threshold: 0,
@@ -75,5 +82,21 @@ module.exports = {
       // exclude
       // include
     }),
+    new PreloadWebpackPlugin(
+      {
+        rel: 'preload',
+        include: 'initial',
+        fileBlacklist: [
+          /\.map$/,
+          /hot-update\.js$/
+        ]
+      }
+    ),
+    new PreloadWebpackPlugin(
+      {
+        rel: 'prefetch',
+        include: 'asyncChunks'
+      }
+    ),
   ]
 }

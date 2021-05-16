@@ -6,9 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title>
-    <%= htmlWebpackPlugin.options.title %>
-  </title>
+  <% if (process.env.NODE_ENV==='production' ) { %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iview@3.5.4/dist/styles/iview.css">
+    <% } %>
+      <title>
+        <%= htmlWebpackPlugin.options.title %>
+      </title>
 </head>
 
 <body>
@@ -19,10 +22,17 @@
   <h1>我是hss_webpack5目录下的public目录下的index.html</h1>
   <div id="app"></div>
 
-  <script src="../contentBase_test.js"></script>
+  <!-- <script src="../contentBase_test.js"></script> -->
   <!-- ejs中的if判断 -->
   <% if (process.env.NODE_ENV==='production' ) { %>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.1/dist/vue-router.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.1.1/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/less@4.1.1/dist/less.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iview@3.5.4/dist/iview.min.js"></script>
     <% } %>
 </body>
 
