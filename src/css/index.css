@@ -1,7 +1,7 @@
 @import "../font/iconfont.css";
 /* 通过@import引入的文件没有作用域！（即使当前文件在scoped下，@import引入的iconfont.css也没有作用域） */
 
-.indexcss-font {
+/* .indexcss-font {
     font-size: 30px;
     font-weight: bold;
 }
@@ -13,4 +13,4 @@
     background-size: contain;
     height: 50px;
     width: 100px;
-}
+} */

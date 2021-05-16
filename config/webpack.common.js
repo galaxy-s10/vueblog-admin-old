@@ -49,11 +49,11 @@ const commonConfig = {
   },
   optimization: {
     // minimize: false,
-    minimizer: [
-      new TerserPlugin({
-        extractComments: false, //去除打包生成的bundle.js.LICENSE.txt
-      }),
-    ],
+    // minimizer: [
+    //   new TerserPlugin({
+    //     extractComments: false, //去除打包生成的bundle.js.LICENSE.txt
+    //   }),
+    // ],
     /**
      * splitChunks属性，如果设置了mode: 'production'，会有默认行为，具体看官网
      * 但即使没有设置mode: 'production'，也没有手动添加splitChunks属性，默认还是会添加splitChunks的部分行为，
@@ -140,8 +140,9 @@ const commonConfig = {
           },
           // 顺序：从下往上，从右往左
           // { loader: 'style-loader' },  // Do not use style-loader and mini-css-extract-plugin together.
-          { loader: 'css-loader' }
-        ]
+          { loader: 'css-loader' },
+        ],
+        sideEffects: true //告诉webpack是有副作用的，不对css进行删除
       },
       {
         test: /\.less$/,
@@ -245,6 +246,7 @@ module.exports = function (env) {
 
   const config = isProduction ? prodConfig : devConfig;
   const mergeConfig = merge(commonConfig, config);  //根据当前环境，合并配置文件
+  console.log(mergeConfig)
 
   return mergeConfig;
 };

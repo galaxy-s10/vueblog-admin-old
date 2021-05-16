@@ -1,9 +1,9 @@
-import('./js/jq').then(res=>{
-    console.log('加载jq')
-})
 
-setTimeout(() => {
-    import('./js/jq').then(res=>{
-        console.log('加载jq')
-    })
-}, 2000);
+// import { sum } from './lib/utils'
+import './main.css'
+
+// console.log(sum)
+
+var h2 = document.createElement('h2')
+// h2.className='test123'
+document.body.appendChild(h2)

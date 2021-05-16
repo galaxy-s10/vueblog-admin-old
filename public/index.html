@@ -20,6 +20,10 @@
   <div id="app"></div>
 
   <script src="../contentBase_test.js"></script>
+  <!-- ejs中的if判断 -->
+  <% if (process.env.NODE_ENV==='production' ) { %>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <% } %>
 </body>
 
 </html>
