@@ -2,6 +2,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
+const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 const PurgeCssPlugin = require('purgecss-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
@@ -16,9 +17,17 @@ module.exports = {
   // mode: "development",
   // mode: "production",
   // devtool: 'source-map',
-
+  externals: {
+    vue: "Vue",
+    vuex: 'Vuex',
+    'vue-router': 'VueRouter',
+    axios: 'axios',
+    less: 'less',
+    echarts: 'echarts',
+    iview: 'iview',
+  },
   optimization: {
-    concatenateModules:true,
+    // concatenateModules: true,
     usedExports: true, // production模式或者不设置usedExports，它默认就是true。usedExports的目的是标注出来哪些函数是没有被使用 unused，会结合Terser进行处理
     minimize: true,  //是否开启Terser,默认就是true，设置false后，不会压缩和转化
     minimizer: [
@@ -46,7 +55,10 @@ module.exports = {
           keep_classnames: true,//default: undefined,传递true以防止丢弃或混淆类名。
           keep_fnames: true, //default: false,传递true以防止函数名被丢弃或混淆。
         }
-      })
+      }),
+      new CssMinimizerPlugin({
+        parallel: true,
+      }), // css压缩，去除无用的空格等等
     ],
     // runtimeChunk: {
     //   name: 'runtime'
@@ -54,47 +66,61 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({}), // 自动删除生成的dist文件夹
-    new HtmlWebpackExternalsPlugin({
-      externals: [
-        {
-          module: 'vue',
-          entry: 'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js',
-          global: 'Vue'
-        },
-        {
-          module: 'vuex',
-          entry: 'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js',
-          global: 'Vuex'
-        },
-        {
-          module: 'vue-router',
-          entry: 'https://cdn.jsdelivr.net/npm/vue-router@3.5.1/dist/vue-router.min.js',
-          global: 'VueRouter'
-        },
-        {
-          module: 'axios',
-          entry: 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
-          global: 'axios'
-        },
-        {
-          module: 'less',
-          entry: 'https://cdn.jsdelivr.net/npm/less@4.1.1/dist/less.min.js',
-          global: 'less'
-        },
-        {
-          module: 'echarts',
-          entry: 'https://cdn.jsdelivr.net/npm/echarts@5.1.1/dist/echarts.min.js',
-          global: 'echarts'
-        },
-        {
-          module: 'iview',
-          entry: 'https://cdn.jsdelivr.net/npm/iview@3.5.4/dist/iview.min.js',
-          global: 'iview'
-        },
+    // new HtmlWebpackExternalsPlugin({  //将vendors添加到externals属性中，并在index.html引入。这个库不维护了。
+    //   externals: [
+    //     {
+    //       module: 'vue',
+    //       entry: 'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js',
+    //       global: 'Vue'
+    //     },
+    //     {
+    //       module: 'vuex',
+    //       entry: 'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js',
+    //       global: 'Vuex'
+    //     },
+    //     {
+    //       module: 'vue-router',
+    //       entry: 'https://cdn.jsdelivr.net/npm/vue-router@3.5.1/dist/vue-router.min.js',
+    //       global: 'VueRouter'
+    //     },
+    //     {
+    //       module: 'axios',
+    //       entry: 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
+    //       global: 'axios'
+    //     },
+    //     {
+    //       module: 'less',
+    //       entry: 'https://cdn.jsdelivr.net/npm/less@4.1.1/dist/less.min.js',
+    //       global: 'less'
+    //     },
+    //     {
+    //       module: 'echarts',
+    //       entry: 'https://cdn.jsdelivr.net/npm/echarts@5.1.1/dist/echarts.min.js',
+    //       global: 'echarts'
+    //     },
+    //     {
+    //       module: 'iview',
+    //       entry: 'https://cdn.jsdelivr.net/npm/iview@3.5.4/dist/iview.min.js',
+    //       global: 'iview'
+    //     },
+    //   ]
+    // }),
+    new HtmlWebpackTagsPlugin({
+      append: false,
+      links: [
+        'https://cdn.jsdelivr.net/npm/iview@3.5.4/dist/styles/iview.css',
+      ],
+      scripts: [
+        { path: 'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js' },
+        { path: 'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js' },
+        { path: 'https://cdn.jsdelivr.net/npm/vue-router@3.5.1/dist/vue-router.min.js' },
+        { path: 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js' },
+        { path: 'https://cdn.jsdelivr.net/npm/less@4.1.1/dist/less.min.js' },
+        { path: 'https://cdn.jsdelivr.net/npm/echarts@5.1.1/dist/echarts.min.js' },
+        { path: 'https://cdn.jsdelivr.net/npm/iview@3.5.4/dist/iview.min.js' },
       ]
     }),
-    // new CssMinimizerPlugin(), // css压缩，去除无用的空格等等
-    // new webpack.optimize.ModuleConcatenationPlugin(), //作用域提升
+    // new webpack.optimize.ModuleConcatenationPlugin(), //作用域提升。！！！在使用cdn时，axios和iview有问题，先不用！！！
     // new PurgeCssPlugin({  //css的Tree Shaking
     //   /**
     //    * 实际测试很多bug,比如html里面有ul这个元素，css里面的.ul{}，#ul{}，ul{}都会打包进去？？？
@@ -107,29 +133,29 @@ module.exports = {
     //     }
     //   }
     // }),
-    // new CompressionPlugin({ //http压缩
-    //   test: /\.(css|js)$/i,
-    //   threshold: 0,
-    //   minRatio: 0.8,  //只有压缩比这个比率更好的资产才会被处理(minRatio =压缩大小/原始大小),即压缩如果达不到0.8就不会进行压缩
-    //   algorithm: "gzip",
-    //   // exclude
-    //   // include
-    // }),
-    // new PreloadWebpackPlugin(
-    //   {
-    //     rel: 'preload',
-    //     include: 'initial',
-    //     fileBlacklist: [
-    //       /\.map$/,
-    //       /hot-update\.js$/
-    //     ]
-    //   }
-    // ),
-    // new PreloadWebpackPlugin(
-    //   {
-    //     rel: 'prefetch',
-    //     include: 'asyncChunks'
-    //   }
-    // ),
+    new CompressionPlugin({ //http压缩
+      test: /\.(css|js)$/i,
+      threshold: 10 * 1024,
+      minRatio: 0.8,  //只有压缩比这个比率更好的资产才会被处理(minRatio =压缩大小/原始大小),即压缩如果达不到0.8就不会进行压缩
+      algorithm: "gzip",
+      // exclude
+      // include
+    }),
+    new PreloadWebpackPlugin( //预加载
+      {
+        rel: 'preload',
+        include: 'initial',
+        fileBlacklist: [
+          /\.map$/,
+          /hot-update\.js$/
+        ]
+      }
+    ),
+    new PreloadWebpackPlugin( //预获取
+      {
+        rel: 'prefetch',
+        include: 'asyncChunks'
+      }
+    ),
   ]
 }

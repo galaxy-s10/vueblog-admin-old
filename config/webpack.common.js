@@ -5,6 +5,7 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const copyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const { merge } = require("webpack-merge");
@@ -175,7 +176,7 @@ const commonConfig = {
       //     ]
       // },
       {
-        test: /\.(jpg|jpeg|png|gif|svg)$/,
+        test: /\.(jpg|jpeg|png|gif)$/,
         // type: 'asset/resource', // 约等于实现file-loader
         // generator:{
         //     filename:'img/[name]-[hash:6].[ext]'
@@ -192,7 +193,8 @@ const commonConfig = {
         }
       },
       {
-        test: /\.(eot|ttf|woff2?)$/,
+        // test: /\.(svg|eot|ttf|woff2?)\??.*$/,
+        test: /\.(svg|eot|ttf|woff2?)$/,
         type: 'asset/resource',
         generator: {
           filename: 'font/[name]-[hash:6][ext]'
@@ -239,7 +241,7 @@ const commonConfig = {
       BASE_URL: "'./'"    //public下的index.html里面的icon的路径
     }),
     new VueLoaderPlugin(), //解析vue
-    new MiniCssExtractPlugin({
+    new MiniCssExtractPlugin({  //将 CSS 提取到单独的文件中
       // Options similar to the same options in webpackOptions.output
       // all options are optional
       filename: 'css/[name]-[hash:6].css',

@@ -18,6 +18,8 @@ import * as echarts from 'echarts';
 
 // import 'iview/dist/styles/iview.css';
 
+// import "mavon-editor/dist/css/index.css";
+
 import request from './api/request'
 
 Vue.prototype.$axios = axios;
@@ -45,9 +47,9 @@ Vue.use(less)
 
 Vue.config.productionTip = false
 
-import cache from './libs/cache1'
+// import cache from './libs/cache1'
 
-console.log(cache)
+// console.log(cache)
 
 new Vue({
   store,
