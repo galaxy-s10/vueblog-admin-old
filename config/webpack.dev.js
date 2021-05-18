@@ -9,9 +9,9 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     hot: true,  // hrm，开启模块热替换
-    hotOnly: true,  //默认情况下（hotOnly:false），如果编译失败会刷新页面。设置了true后就不会刷新整个页面
+    hotOnly: true,  // 默认情况下（hotOnly:false），如果编译失败会刷新页面。设置了true后就不会刷新整个页面
     compress: true, // 开启gizp压缩
-    port: 8888,  //默认端口号8080
+    port: 8888,  // 默认端口号8080
     // open: true,  //默认不打开浏览器
     /**
      * contentBase默认为package.json文件所在的根目录，即hss_webpack5目录

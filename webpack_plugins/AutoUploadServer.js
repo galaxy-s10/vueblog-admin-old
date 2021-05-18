@@ -44,7 +44,7 @@ class AutoUpload {
       recursive: true,
       concurrency: 10
     });
-    console.log('传送到服务器: ', status ? "成功" : "失败");
+    console.log('传送到服务器:', status ? "成功" : "失败");
   }
 }
 

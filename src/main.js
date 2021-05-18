@@ -19,6 +19,10 @@ import * as echarts from 'echarts';
 // import 'iview/dist/styles/iview.css';
 
 // import "mavon-editor/dist/css/index.css";
+console.log(process.env)
+if (process.env.NODE_ENV == 'development') {
+  import('iview/dist/styles/iview.css')
+}
 
 import request from './api/request'
 

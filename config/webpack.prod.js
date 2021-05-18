@@ -1,22 +1,22 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
+// const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
-const PurgeCssPlugin = require('purgecss-webpack-plugin');
+// const PurgeCssPlugin = require('purgecss-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
 const AutoUploadServer = require('../webpack_plugins/AutoUploadServer')
 const serverConfig = require('./server')
-const glob = require('glob')
-const webpack = require('webpack');
-const path = require("path");
+// const glob = require('glob')
+// const webpack = require('webpack');
+// const path = require("path");
 const isProduction = true;
-console.log("加载生产时的配置文件");
+
+// console.log("加载生产时的配置文件");
 
 module.exports = {
-  // mode: "development",
-  // mode: "production",
+  mode: "production",
   // devtool: 'source-map',
   externals: {
     vue: "Vue",
@@ -28,7 +28,7 @@ module.exports = {
     iview: 'iview',
   },
   optimization: {
-    // concatenateModules: true,
+    // concatenateModules: true,  // production模式下默认true。告知 webpack 去寻找模块图形中的片段，哪些是可以安全地被合并到单一模块中。
     usedExports: true, // production模式或者不设置usedExports，它默认就是true。usedExports的目的是标注出来哪些函数是没有被使用 unused，会结合Terser进行处理
     minimize: true,  //是否开启Terser,默认就是true，设置false后，不会压缩和转化
     minimizer: [
@@ -52,13 +52,13 @@ module.exports = {
            * 传递false以跳过篡改名称，或者传递一个对象来指定篡改选项
            */
           mangle: true,
-          toplevel: false,  //default false,如果希望启用顶级变量和函数名修改,并删除未使用的变量和函数,则设置为true。
+          toplevel: true,  //default false,如果希望启用顶级变量和函数名修改,并删除未使用的变量和函数,则设置为true。
           keep_classnames: true,//default: undefined,传递true以防止丢弃或混淆类名。
           keep_fnames: true, //default: false,传递true以防止函数名被丢弃或混淆。
         }
       }),
       new CssMinimizerPlugin({
-        parallel: true,
+        parallel: true, // 使用多进程并发执行，提升构建速度。
       }), // css压缩，去除无用的空格等等
     ],
     // runtimeChunk: {
@@ -158,11 +158,11 @@ module.exports = {
         include: 'asyncChunks'
       }
     ),
-    // new AutoUploadServer({  //自定义plugin，打包完成后将output.path的内容上传到服务器
-    //   host: serverConfig.host,
-    //   username: serverConfig.username,
-    //   password: serverConfig.password,
-    //   remotePath: serverConfig.remotePath
-    // })
+    new AutoUploadServer({  //自定义plugin，打包完成后将output.path的内容上传到服务器
+      host: serverConfig.host,
+      username: serverConfig.username,
+      password: serverConfig.password,
+      remotePath: serverConfig.remotePath
+    })
   ]
 }
