@@ -6,11 +6,12 @@ const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 const PurgeCssPlugin = require('purgecss-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
+const AutoUploadServer = require('../webpack_plugins/AutoUploadServer')
+const serverConfig = require('./server')
 const glob = require('glob')
 const webpack = require('webpack');
 const path = require("path");
 const isProduction = true;
-
 console.log("加载生产时的配置文件");
 
 module.exports = {
@@ -135,9 +136,9 @@ module.exports = {
     // }),
     new CompressionPlugin({ //http压缩
       test: /\.(css|js)$/i,
-      threshold: 10 * 1024,
+      threshold: 10 * 1024, //大于10k的文件才进行压缩
       minRatio: 0.8,  //只有压缩比这个比率更好的资产才会被处理(minRatio =压缩大小/原始大小),即压缩如果达不到0.8就不会进行压缩
-      algorithm: "gzip",
+      algorithm: "gzip",  //压缩算法
       // exclude
       // include
     }),
@@ -157,5 +158,11 @@ module.exports = {
         include: 'asyncChunks'
       }
     ),
+    // new AutoUploadServer({  //自定义plugin，打包完成后将output.path的内容上传到服务器
+    //   host: serverConfig.host,
+    //   username: serverConfig.username,
+    //   password: serverConfig.password,
+    //   remotePath: serverConfig.remotePath
+    // })
   ]
 }

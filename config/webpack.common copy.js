@@ -154,11 +154,11 @@ const commonConfig = {
       template: './public/index.html',
       // chunks: ['main']
     }),
-    // new HtmlWebpackPlugin({ // 自动生成index.html文件(并引入打包的js)
-    //   title: 'hss-webpack51',
-    //   template: './index1.html',
-    //   chunks: ['index']
-    // }),
+    new HtmlWebpackPlugin({ // 自动生成index.html文件(并引入打包的js)
+      title: 'hss-md',
+      template: './md.html',
+      // chunks: ['index']
+    }),
     new copyWebpackPlugin({
       patterns: [
         {

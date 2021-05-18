@@ -21,6 +21,9 @@ const commonConfig = {
       import: './src/main.js',
       // filename: 'output-[name]-bundle.js'
     },
+    md: {
+      import: './src/md.js',
+    },
     // main: [
     //   './src/main.js'
     // ]
@@ -124,8 +127,18 @@ const commonConfig = {
       }
     }
   },
+  resolveLoader: {  // 用于解析webpack的loader
+    modules: ["node_modules", "webpack_loaders"]
+  },
   module: {
     rules: [
+      {
+        test: /\.md?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "hss-parse-md",
+        }
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -209,21 +222,26 @@ const commonConfig = {
     ]
   },
   plugins: [
-    // new BundleAnalyzerPlugin({
+    // new BundleAnalyzerPlugin({ //打包优化
     //   analyzerMode: 'server',
     //   generateStatsFile: true,
     //   statsOptions: { source: false }
     // }),
     new HtmlWebpackPlugin({ // 自动生成index.html文件(并引入打包的js)
+      filename: 'index.html',
       title: 'hss-webpack5',
       template: './public/index.html',
-      // chunks: ['main']
+      hash: true,
+      chunks: ['main']
     }),
-    // new HtmlWebpackPlugin({ // 自动生成index.html文件(并引入打包的js)
-    //   title: 'hss-webpack51',
-    //   template: './index1.html',
-    //   chunks: ['index']
-    // }),
+    new HtmlWebpackPlugin({ // 自动生成index.html文件(并引入打包的js)
+      filename: 'md.html',
+      title: 'hss-md',
+      hash: true,
+      // template: './public/md.html',
+      template: path.resolve(__dirname, '../public/md.html'),
+      chunks: ['md']
+    }),
     new copyWebpackPlugin({
       patterns: [
         {
@@ -231,7 +249,10 @@ const commonConfig = {
           // to: 'assets'    //复制到output.path下的assets，不写默认就是output.path根目录
           globOptions: {
             ignore: [
-              "**/index.html",//忽略from目录下的index.html
+              // 复制到output.path时，如果output.paht已经存在重复的文件了，会报错：
+              // ERROR in Conflict: Multiple assets emit different content to the same filename md.html
+              "**/index.html",//忽略from目录下的index.html，它是入口文件
+              "**/md.html",//忽略from目录下的md.html，它是入口文件
             ]
           }
         }
