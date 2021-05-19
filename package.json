@@ -38,7 +38,8 @@
     "webpack": "^5.28.0",
     "webpack-bundle-analyzer": "^4.4.1",
     "webpack-cli": "^4.6.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpackbar": "^5.0.0-3"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.14.2",

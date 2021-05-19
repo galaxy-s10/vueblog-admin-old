@@ -54,7 +54,9 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    console.log(this.$route);
+  },
   computed: {
     ...mapState("user", ["remember"]),
     getRemember: {

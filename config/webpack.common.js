@@ -6,7 +6,8 @@ const copyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const WebpackBar = require('webpackbar');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const { merge } = require("webpack-merge");
 
@@ -223,6 +224,7 @@ const commonConfig = function (isProduction) {
       ]
     },
     plugins: [
+      new WebpackBar(), // 构建进度条
       // new BundleAnalyzerPlugin({ // bundle分析
       //   analyzerMode: 'server',
       //   generateStatsFile: true,

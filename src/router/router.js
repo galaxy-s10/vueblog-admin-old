@@ -30,7 +30,7 @@ export const defaultRoutes = [{
     name: "error",
     path: '/error',
     component: Layout,
-    redirect: '/error/404',
+    // redirect: '/error/404',
     // component: () => import('@/views/error'),
     meta: {
         title: '异常页面',
@@ -38,7 +38,7 @@ export const defaultRoutes = [{
     },
     children: [{
         name: "authError",
-        path: '/error/401',
+        path: '401',
         component: () => import('@/views/error/401/index'),
         meta: {
             title: '权限错误',
@@ -46,7 +46,7 @@ export const defaultRoutes = [{
     },
     {
         name: "notFound",
-        path: '/error/404',
+        path: '404',
         component: () => import('@/views/error/404/index'),
         // component: () => import('@/views/testPage'),
         meta: {
@@ -55,7 +55,7 @@ export const defaultRoutes = [{
     },
     {
         name: "serverError",
-        path: '/error/500',
+        path: '500',
         component: () => import('@/views/error/500/index'),
         meta: {
             title: '服务器错误',
@@ -418,6 +418,7 @@ export const roleRoutes = [{
 ]
 
 const router = new VueRouter({
+    base: '/abc/',
     mode: 'history',
     routes: [
         ...defaultRoutes,
