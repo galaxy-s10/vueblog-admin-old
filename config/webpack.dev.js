@@ -18,9 +18,9 @@ module.exports = {
      * 打开localhost:8080/hss/demo.js,就会访问hss_webpack5目录下的hss目录下的demo.js。
      * 设置contentBase: path.resolve(__dirname, '../hss')后，打开localhost:8080/demo.js,即可访问hss_webpack5目录下的hss目录下的demo.js
      */
-    // contentBase: path.resolve(__dirname, '../hss'),
-    // watchContentBase: true, //监听contenBase目录
-    // historyApiFallback: true, //默认值：false，设置true后可解决spa页面刷新404
+    contentBase: path.resolve(__dirname, '../hss'),
+    watchContentBase: true, //监听contenBase目录
+    historyApiFallback: true, //默认值：false，设置true后可解决spa页面刷新404
     historyApiFallback: {
       rewrites: [
         // 如果publicPath设置了/abc，就不能直接设置historyApiFallback: true，这样会重定向到hss_webpack5根目录下的index.html

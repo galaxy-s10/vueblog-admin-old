@@ -40,14 +40,14 @@ router.beforeEach(async (to, from, next) => {
     const hasUserInfo = store.state.user
     // 判断用户有没有角色
     if (hasUserInfo.roles.length) {
-      console.log('有角色')
+      console.log('有token,有角色')
       console.log(to)
       // next({ ...to, replace: true })
       next()
     } else {
       // token存storage，用户信息存vuex，
       // 如果已登录的用户刷新，token还会在本地，但是vuex的数据会清空，需要重新获取
-      console.log('无角色');
+      console.log('有token,无角色');
       try {
         await store.dispatch("user/getUserInfo")
         await store.dispatch("user/getAuth")

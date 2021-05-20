@@ -45,7 +45,23 @@ const commonConfig = function (isProduction) {
       chunkFilename: "js/[name]-[hash:6]-bundle-chunk.js",
       path: path.resolve(__dirname, '../dist'),
       assetModuleFilename: "assets/[name]-[hash:6].[ext]", //静态资源生成目录（不管什么资源默认都统一生成到这里,除非单独设置了generator）
-      // publicPath: "/abc" //output的publicPath建议与devServer的publicPath一致，还可设置cdn地址。
+      /**
+       * output的publicPath建议(或者绝大部分情况下必须)与devServer的publicPath一致。
+       * 不管开发模式还是生产模式，output.publicPath都会生效，如果不设置publicPath，
+       * 它默认就约等于output.publicPath:""，到时候不管开发还是生产模式，最终引入到
+       * index.html的所有资源都会拼上这个路径，如果不设置output.publicPath，会有问题：
+       * 比如vue的history模式下，如果不设置output.publicPath，如果路由全都是/foo,/bar,/baz这样的一级路由没有问题，
+       * 因为引入的资源都是js/bundle.js，css/bundle.css等等，浏览器输入：http://localhost:8080/foo，回车访问，
+       * 引入的资源就是http://localhost:8080/js/bundle.js，http://localhost:8080/css/bundle.css,没有问题
+       * 但是如果有这些路由：/logManage/logList,/logManage/logList/editLog,等等超过一级的路由，就会有问题，
+       * 因为没有设置output.publicPath，所以它默认就是""，此时浏览器输入：http://localhost:8080/logManage/logList，
+       * 回车访问，引入的资源就是http://localhost:8080/logManage/logList/js/bundle.js，而很明显，我们
+       * 的http://localhost:8080/logManage/logList/js目录下没有bundle.js这个资源（至少默认情况下是没有，除非设置了其他属性）
+       * 找不到这个资源就会报错，但是这种情况的路由是很常见的，所以建议默认必须手动设置output.publicPath:"/"，这样的话，
+       * 访问http://localhost:8080/logManage/logList，引入的资源就是：http://localhost:8080/js/bundle.js，就不会报错。
+       * 此外，output.publicPath还可设置cdn地址。
+       */
+      publicPath: "/abc/"
     },
     resolve: {  //解析路径
       extensions: [".wasm", ".mjs", ".js", ".json", ".jsx", ".ts", ".vue"], //解析扩展名

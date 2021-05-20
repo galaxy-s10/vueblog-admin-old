@@ -1,7 +1,7 @@
 <template>
-  <div>6666666
-      <router-link to="/aa" tag="div">685</router-link>
-      <b>sdg</b>
+  <div>
+    <router-link to="/aa">685</router-link>
+    <b>sdg</b>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   mounted() {},
   computed: {},
   methods: {},
-  watch: {},
+  watch: {}
 };
 </script>
 
