@@ -13,10 +13,9 @@ const serverConfig = require('./server')
 // const path = require("path");
 const isProduction = true;
 
-// console.log("加载生产时的配置文件");
 
 module.exports = {
-  mode: "production",
+  // mode: "production",
   // devtool: 'source-map',
   externals: {
     vue: "Vue",
@@ -108,6 +107,7 @@ module.exports = {
     // }),
     new HtmlWebpackTagsPlugin({
       append: false,
+      publicPath:"",
       links: [
         'https://cdn.jsdelivr.net/npm/iview@3.5.4/dist/styles/iview.css',
       ],

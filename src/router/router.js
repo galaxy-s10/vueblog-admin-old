@@ -418,7 +418,7 @@ export const roleRoutes = [{
 ]
 
 const router = new VueRouter({
-    base: '/abc',
+    // base: '/abc',
     mode: 'history',
     routes: [
         ...defaultRoutes,

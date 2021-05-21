@@ -118,6 +118,9 @@ export default {
 };
 </script>
 
+<style src="./test.css">
+</style>
+
 <style scoped>
 .wrap {
   display: flex;
@@ -125,6 +128,9 @@ export default {
   height: 100vh;
   background: #f5f7f9;
 }
+/* :fullscreen {
+  color: red;
+} */
 .login {
   width: 320px;
   margin: auto;

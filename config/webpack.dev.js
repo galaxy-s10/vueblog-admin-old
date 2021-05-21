@@ -2,10 +2,8 @@
 const path = require("path");
 const isProduction = false;
 
-// console.log("加载开发时的配置文件");
-
 module.exports = {
-  // mode: "development",
+  mode: "development",
   devtool: 'source-map',
   devServer: {
     hot: true,  // hrm，开启模块热替换
@@ -21,14 +19,14 @@ module.exports = {
     contentBase: path.resolve(__dirname, '../hss'),
     watchContentBase: true, //监听contenBase目录
     historyApiFallback: true, //默认值：false，设置true后可解决spa页面刷新404
-    historyApiFallback: {
-      rewrites: [
-        // 如果publicPath设置了/abc，就不能直接设置historyApiFallback: true，这样会重定向到hss_webpack5根目录下的index.html
-        // publicPath设置了/abc，就重定向到/abc，这样就可以了
-        { from: /abc/, to: "/abc" }
-      ]
-    },
-    publicPath: "/abc", //devServer的publicPath建议与output的publicPath一致
+    // historyApiFallback: {
+    //   rewrites: [
+    //     // 如果publicPath设置了/abc，就不能直接设置historyApiFallback: true，这样会重定向到hss_webpack5根目录下的index.html
+    //     // publicPath设置了/abc，就重定向到/abc，这样就可以了
+    //     { from: /abc/, to: "/abc" }
+    //   ]
+    // },
+    publicPath: "/", //devServer的publicPath建议与output的publicPath一致
     proxy: {
       '/api': {
         target: 'https://www.zhengbeining.com/api/',  //默认：/api/type/pageList ===>https://www.zhengbeining.com/api/api/type/pageList

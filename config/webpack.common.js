@@ -61,7 +61,7 @@ const commonConfig = function (isProduction) {
        * 访问http://localhost:8080/logManage/logList，引入的资源就是：http://localhost:8080/js/bundle.js，就不会报错。
        * 此外，output.publicPath还可设置cdn地址。
        */
-      publicPath: "/abc/"
+      publicPath: "/"
     },
     resolve: {  //解析路径
       extensions: [".wasm", ".mjs", ".js", ".json", ".jsx", ".ts", ".vue"], //解析扩展名
@@ -69,13 +69,10 @@ const commonConfig = function (isProduction) {
         "@": path.resolve(__dirname, '../src'),  //设置路径别名
       },
     },
+    resolveLoader: {  // 用于解析webpack的loader
+      modules: ["node_modules", "webpack_loaders"]
+    },
     optimization: {
-      // minimize: false,
-      // minimizer: [
-      //   new TerserPlugin({
-      //     extractComments: false, //去除打包生成的bundle.js.LICENSE.txt
-      //   }),
-      // ],
       /**
        * splitChunks属性，如果设置了mode: 'production'，会有默认行为，具体看官网
        * 但即使没有设置mode: 'production'，也没有手动添加splitChunks属性，默认还是会添加splitChunks的部分行为，
@@ -120,7 +117,7 @@ const commonConfig = function (isProduction) {
          */
         cacheGroups: {  //cacheGroups里的优先级默认比外面的高
           // defaultVendors:false,  //禁用默认webpack默认设置的defaultVendors缓存组
-          // defa ult:false, //禁用默认webpack默认设置的default缓存组
+          // default:false, //禁用默认webpack默认设置的default缓存组
           defaultVendors: { //重写默认的defaultVendors
             chunks: 'initial',
             // minSize: 50 * 1024,
@@ -145,10 +142,8 @@ const commonConfig = function (isProduction) {
         }
       }
     },
-    resolveLoader: {  // 用于解析webpack的loader
-      modules: ["node_modules", "webpack_loaders"]
-    },
     module: {
+      // loader执行顺序：从下往上，从右往左
       rules: [
         {
           test: /\.md?$/,
@@ -165,31 +160,80 @@ const commonConfig = function (isProduction) {
           }
         },
         {
+          test: /\.vue$/,
+          use: [
+            { loader: 'vue-loader' },
+          ]
+        },
+        {
           test: /\.css$/,
           use: [
+            isProduction ?
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  // you can specify a publicPath here
+                  // by default it uses publicPath in webpackOptions.output
+                  /**
+                   * 即默认打包的css文件是webpackOptions.output的publicPath，
+                   * 但在new MiniCssExtractPlugin()时候，设置了打包生成的文件在dist下面的css目录里，
+                   */
+                  publicPath: '../',
+                },
+              } : { loader: 'style-loader' },  // Do not use style-loader and mini-css-extract-plugin together.
             {
-              loader: MiniCssExtractPlugin.loader,
+              loader: "css-loader",
               options: {
-                // you can specify a publicPath here
-                // by default it uses publicPath in webpackOptions.output
-                /**
-                 * 即默认打包的css文件是webpackOptions.output的publicPath，
-                 * 但在new MiniCssExtractPlugin()时候，设置了打包生成的文件在dist下面的css目录里，
-                 */
-                publicPath: '../',
-              },
+                importLoaders: 1, // 在css文件里面@import了其他资源，就回到上一个loader，在上一个loader那里重新解析@import里的资源
+              }
             },
-            // 顺序：从下往上，从右往左
-            // { loader: 'style-loader' },  // Do not use style-loader and mini-css-extract-plugin together.
-            { loader: 'css-loader' },
+            // {
+            //   loader: 'postcss-loader',
+            //   options: {
+            //     postcssOptions: {
+            //       plugins: [
+            //         'postcss-preset-env'
+            //       ]
+            //     }
+            //   }
+            // },
+            "postcss-loader", // 默认会自动找postcss.config.js
           ],
-          sideEffects: true //告诉webpack是有副作用的，不对css进行删除
+          sideEffects: true // 告诉webpack是有副作用的，不对css进行删除
         },
         {
           test: /\.less$/,
           use: [
-            { loader: 'style-loader' },
-            { loader: 'css-loader' },
+            isProduction ?
+              {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  // you can specify a publicPath here
+                  // by default it uses publicPath in webpackOptions.output
+                  /**
+                   * 即默认打包的css文件是webpackOptions.output的publicPath，
+                   * 但在new MiniCssExtractPlugin()时候，设置了打包生成的文件在dist下面的css目录里，
+                   */
+                  publicPath: '../',
+                },
+              } : { loader: 'style-loader' },
+            {
+              loader: "css-loader",
+              options: {
+                importLoaders: 2,   // 在less文件里面@import了其他资源，就回到上两个loader，在上两个loader那里开始重新解析@import里的资源
+              }
+            },
+            // {
+            //   loader: 'postcss-loader',
+            //   options: {
+            //     postcssOptions: {
+            //       plugins: [
+            //         'postcss-preset-env'
+            //       ]
+            //     }
+            //   }
+            // },
+            "postcss-loader", // 默认会自动找postcss.config.js
             { loader: 'less-loader' }
           ]
         },
@@ -219,7 +263,7 @@ const commonConfig = function (isProduction) {
           },
           parser: {
             dataUrlCondition: {
-              maxSize: 100 * 1024
+              maxSize: 4 * 1024,  // 如果一个模块源码大小小于 maxSize，那么模块会被作为一个 Base64 编码的字符串注入到包中， 否则模块文件会被生成到输出的目标目录中
             }
           }
         },
@@ -231,12 +275,6 @@ const commonConfig = function (isProduction) {
             filename: 'font/[name]-[hash:6][ext]'
           },
         },
-        {
-          test: /\.vue$/,
-          use: [
-            { loader: 'vue-loader' },
-          ]
-        }
       ]
     },
     plugins: [
@@ -295,7 +333,6 @@ const commonConfig = function (isProduction) {
         BASE_URL: "'./'",    //public下的index.html里面的icon的路径
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
-
         }
       }),
       new VueLoaderPlugin(), //解析vue
@@ -312,9 +349,21 @@ const commonConfig = function (isProduction) {
 
 module.exports = function (env) {
   const isProduction = env.production;
-  process.env.NODE_ENV = isProduction ? "production" : "development";
+  /**
+   * 注意：在node环境下，给process.env这个对象添加的所有属性，都会默认转成字符串,
+   * 如果给process.env.NODE_ENV = undefined，赋值的时候node会将undefined转成"undefined"再赋值
+   * 即约等于：process.env.NODE_ENV = "undefined",
+   * 如果是process.env.num = 123，最终就是：process.env.num = "123"。
+   * 所以，尽量不要将非字符串赋值给process.env[属性名]！
+   */
+  // 如果是process.env.production = isProduction,这样的话，process.env.production就要么是字符串"true"，要么是字符串"undefined"
+  // 改进：process.env.production = isProduction?true:false,这样的话，process.env.production就要么是字符串"true"，要么是字符串"false"
 
+  // 这里要先判断isProduction,判断完再将字符串赋值给process.env.NODE_ENV，就万无一失了
+  process.env.NODE_ENV = isProduction ? "production" : "development";
   const config = isProduction ? prodConfig : devConfig;
+  console.log(isProduction)
+  console.log(config)
   const mergeConfig = merge(commonConfig(isProduction), config);  //根据当前环境，合并配置文件
 
   return mergeConfig;
