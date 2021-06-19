@@ -29,7 +29,8 @@ module.exports = {
     publicPath: "/", //devServer的publicPath建议与output的publicPath一致
     proxy: {
       '/api': {
-        target: 'https://www.zhengbeining.com/api/',  //默认：/api/type/pageList ===>https://www.zhengbeining.com/api/api/type/pageList
+        // target: 'https://www.zhengbeining.com/api/',  //默认：/api/type/pageList ===>https://www.zhengbeining.com/api/api/type/pageList
+        target: 'http://42.193.157.44/api',  //默认：/api/type/pageList ===>https://www.zhengbeining.com/api/api/type/pageList
         secure: false, //默认情况下（secure: true），不接受在HTTPS上运行的带有无效证书的后端服务器。设置secure: false后，后端服务器的HTTPS有无效证书也可运行
         /**
          * changeOrigin，是否修改请求地址的源

@@ -28,9 +28,6 @@
             <Icon v-if="item.meta.icon" :type="item.meta.icon" />
             <div v-if="!isCollapsed">
               {{item.meta.title}}
-              <router-link :to="item.path">68511</router-link>
-              <!-- <hss-link /> -->
-              <!-- <a :to="item.path">{{item.path}}</a> -->
             </div>
           </MenuItem>
         </template>
