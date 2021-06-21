@@ -20,7 +20,7 @@ const commonConfig = function (isProduction) {
     // entry: './src/main.js',
     entry: {
       main: {
-        import: './src/main.js',
+        import: './src/main.ts',
         // filename: 'output-[name]-bundle.js'
       },
       md: {
@@ -145,6 +145,13 @@ const commonConfig = function (isProduction) {
     module: {
       // loader执行顺序：从下往上，从右往左
       rules: [
+        {
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'ts-loader'
+          }
+        },
         {
           test: /\.md?$/,
           exclude: /node_modules/,

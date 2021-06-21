@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "sourceMap": false,
+        "target": "es5",
+        "jsx": "preserve",
+    },
+    "include": [
+        "./**/*.ts"
+    ],
+}
