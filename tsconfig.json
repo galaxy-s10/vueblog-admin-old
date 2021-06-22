@@ -1,8 +1,12 @@
 {
     "compilerOptions": {
-        "sourceMap": false,
+        "module": "es6", /* 设置后就不会报这个错：Uncaught ReferenceError: exports is not defined */
+        // "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
         "target": "es5",
         "jsx": "preserve",
+        "experimentalDecorators": true,
     },
     "include": [
         "./**/*.ts"

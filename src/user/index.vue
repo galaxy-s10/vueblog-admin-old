@@ -1,11 +1,22 @@
+<template>
+  <div>
+    userrrrr
+  </div>
+</template>
+
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-@Component
+// @Component
 export default class HelloWorld extends Vue {
     render(){
         return (
             <div>
-                hello
+                user
             </div>
         )
     }
 }
+</script>
+
+<style scoped>
+</style>
