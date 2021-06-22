@@ -1,12 +1,13 @@
 {
     "compilerOptions": {
+        /* 采用的模块系统 */
         "module": "es6", /* 设置后就不会报这个错：Uncaught ReferenceError: exports is not defined */
         // "module": "commonjs",
-        "moduleResolution": "node",
+        "moduleResolution": "node",     /* 如何处理模块 */
         "sourceMap": true,
-        "target": "es5",
+        "target": "es5",    /* 编译输出目标es版本 */
         "jsx": "preserve",
-        "experimentalDecorators": true,
+        "experimentalDecorators": true, /* 启用装饰器 */
     },
     "include": [
         "./**/*.ts"

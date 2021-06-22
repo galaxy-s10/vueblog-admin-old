@@ -167,7 +167,15 @@ const commonConfig = function(isProduction) {
         //     loader: "ts-loader",
         //   },
         // },
-        { test: /\.ts$/, loader: "ts-loader" },
+        // { test: /\.ts$/, loader: "ts-loader" },
+        {
+          test: /\.ts$/,
+          use: [
+            { loader: "babel-loader" },
+            { loader: "ts-loader", options: { appendTsxSuffixTo: [/\.vue$/] } },
+          ],
+          // loader: "babel-loader!ts-loader",
+        },
         {
           test: /\.tsx$/,
           use: [
