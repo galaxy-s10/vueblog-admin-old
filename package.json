@@ -25,6 +25,8 @@
     "css-loader": "^5.2.0",
     "css-minimizer-webpack-plugin": "^3.0.0",
     "file-loader": "^6.2.0",
+    "gulp": "^4.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "highlight.js": "^10.7.2",
     "html-webpack-externals-plugin": "^3.8.0",
     "html-webpack-plugin": "^5.3.1",

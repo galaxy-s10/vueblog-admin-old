@@ -1,20 +1,25 @@
-console.log('object');
-import './a.less';
-import './b.css';
-// import loading from './loading';
-// import CPT from './backdoor/index';
-import CPT from './avatar/index';
-// import App from './hello/index.vue';
-import App from './user/index.vue';
-// import App from './render/index.vue';
-// console.log(backdoor);
-import Vue from 'vue';
+function hello(compiler: string) {
+  console.log(`Hello from ${compiler}`);
+}
+hello("TypeScript");
 
-console.log(CPT);
+// console.log('object');
+// import './a.less';
+// import './b.css';
+// // import loading from './loading';
+// // import CPT from './backdoor/index';
+// import CPT from './avatar/index';
+// // import App from './hello/index.vue';
+// import App from './user/index.vue';
+// // import App from './render/index.vue';
+// // console.log(backdoor);
+// import Vue from 'vue';
 
-var myText = document.createTextNode('createTextNode');
-document.body.appendChild(myText);
+// console.log(CPT);
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+// var myText = document.createTextNode('createTextNode');
+// document.body.appendChild(myText);
+
+// new Vue({
+//   render: h => h(App),
+// }).$mount('#app')

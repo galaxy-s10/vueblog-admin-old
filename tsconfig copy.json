@@ -10,9 +10,8 @@
         // "jsx": "preserve",
         "noImplicitAny": true,
         // "experimentalDecorators": true, /* 启用装饰器 */
-        "skipLibCheck": true,   /* https://github.com/webpack/webpack/issues/12185 */
     },
-    "include": [
-        "./**/*.ts"
-    ],
+    // "include": [
+    //     "./**/*.ts"
+    // ],
 }
