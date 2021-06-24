@@ -7,12 +7,16 @@
         // "moduleResolution": "node",     /* 如何处理模块 */
         // "sourceMap": true,
         "target": "es5",    /* 编译输出目标es版本 */
-        // "jsx": "preserve",
+        "jsx": "preserve",
         "noImplicitAny": true,
-        // "experimentalDecorators": true, /* 启用装饰器 */
+        "experimentalDecorators": true, /* 启用装饰器 */
+        "lib": ["dom"],
         "skipLibCheck": true,   /* https://github.com/webpack/webpack/issues/12185 */
+        "allowJs": true,        /* 允许js */
     },
     "include": [
-        "./**/*.ts"
+        "./src/**/*.ts",
+        "./src/**/*.tsx",
+        "./src/**/*.js",
     ],
 }

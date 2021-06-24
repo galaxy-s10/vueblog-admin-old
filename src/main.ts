@@ -1,7 +1,11 @@
+import Btn from './btn';
+import Btn2 from './btn2';
 function hello(compiler: string) {
   console.log(`Hello from ${compiler}`);
 }
 hello("TypeScript");
+console.log(Btn());
+console.log(Btn2());
 
 // console.log('object');
 // import './a.less';
