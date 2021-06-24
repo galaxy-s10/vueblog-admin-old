@@ -14,7 +14,7 @@ module.exports = {
     // ['@vue/babel-preset-jsx']
   ],
   plugins: [
-    "transform-vue-jsx",
+    "transform-vue-jsx",  //vue使用jsx就得用这个插件（即使是在vue文件里面使用了render函数也算使用了jsx）！否则解析不了jsx会报错。
     // [
     //   "@babel/plugin-transform-runtime",
     //   {

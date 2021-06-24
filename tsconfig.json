@@ -1,22 +1,22 @@
 {
-    "files": ["src/main.ts"],
+    "files": [
+        "src/main.ts"
+    ],
     "compilerOptions": {
-        /* 采用的模块系统 */
-        // "module": "es6", /* 设置后就不会报这个错：Uncaught ReferenceError: exports is not defined */
-        // "module": "commonjs",
-        // "moduleResolution": "node",     /* 如何处理模块 */
-        // "sourceMap": true,
-        "target": "es5",    /* 编译输出目标es版本 */
+        "target": "es6",
         "jsx": "preserve",
-        "noImplicitAny": true,
-        "experimentalDecorators": true, /* 启用装饰器 */
-        "lib": ["dom"],
-        "skipLibCheck": true,   /* https://github.com/webpack/webpack/issues/12185 */
-        "allowJs": true,        /* 允许js */
+        "noImplicitAny": false,
+        "experimentalDecorators": true,
+        "lib": [
+            "dom"
+        ],
+        "skipLibCheck": true,
+        "allowJs": true,
+        "moduleResolution": "node"
     },
     "include": [
         "./src/**/*.ts",
-        "./src/**/*.tsx",
         "./src/**/*.js",
-    ],
+        "./src/**/*.tsx"
+    ]
 }
