@@ -1,0 +1,22 @@
+{
+    "files": [
+        "src/main.ts"
+    ],
+    "compilerOptions": {
+        "target": "es6",
+        "jsx": "preserve",
+        "noImplicitAny": false,
+        "experimentalDecorators": true,
+        "lib": [
+            "dom"
+        ],
+        "skipLibCheck": true,
+        "allowJs": true,
+        "moduleResolution": "node"
+    },
+    "include": [
+        "./src/**/*.ts",
+        "./src/**/*.js",
+        "./src/**/*.tsx"
+    ]
+}

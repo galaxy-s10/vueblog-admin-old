@@ -158,11 +158,11 @@ module.exports = {
         include: 'asyncChunks'
       }
     ),
-    new AutoUploadServer({  //自定义plugin，打包完成后将output.path的内容上传到服务器
-      host: serverConfig.host,
-      username: serverConfig.username,
-      password: serverConfig.password,
-      remotePath: serverConfig.remotePath
-    })
+    // new AutoUploadServer({  //自定义plugin，打包完成后将output.path的内容上传到服务器
+    //   host: serverConfig.host,
+    //   username: serverConfig.username,
+    //   password: serverConfig.password,
+    //   remotePath: serverConfig.remotePath
+    // })
   ]
 }
