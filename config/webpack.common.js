@@ -20,7 +20,7 @@ const commonConfig = function(isProduction) {
     // entry: './src/main.js',
     entry: {
       main: {
-        import: "./src/main.ts",
+        import: "./src/index.ts",
         // filename: 'output-[name]-bundle.js'
       },
       md: {

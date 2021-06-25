@@ -1,6 +1,6 @@
 {
     "files": [
-        "src/main.ts"
+        "src/index.ts"
     ],
     "compilerOptions": {
         "target": "es6",

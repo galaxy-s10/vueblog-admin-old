@@ -1,15 +1,23 @@
-import Btn from './btn';
-import Btn2 from './btn2/index';
+import Btn from "./btn";
+import Btn2 from "./btn2/index";
 // import App from './backdoor/index';
 // import App from '../dist/backdoor/index';
 // import App from '../dist/hello/index';
-import App from './hello/index';
-import Vue from 'vue';
+import App from "./hello/index";
+import Switch from "./switch/index";
+import Vue from "vue";
 function hello(compiler: string) {
   console.log(`Hello from ${compiler}`);
 }
 hello("TypeScript");
 console.log(Btn());
+
+// const components = {
+//   Switch,
+// };
+
+// module.exports =components
+export { Switch };
 // console.log(Btn2);
 
 // console.log('object');
@@ -29,6 +37,6 @@ console.log(Btn());
 // var myText = document.createTextNode('createTextNode');
 // document.body.appendChild(myText);
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+// new Vue({
+//   render: (h) => h(App),
+// }).$mount("#app");

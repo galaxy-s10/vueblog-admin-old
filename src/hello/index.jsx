@@ -1,15 +1,20 @@
-import "./index.less";
+// import "./index.less";
 // import "./index.css";
+import aaa from "../../dist/index";
+console.log(aaa);
 export default {
-  components: {},
+  components: { HSwitch:aaa.HSwitch },
   data() {
     return {};
   },
   render() {
     console.log();
     return (
-      <div class="hello-wrap">
-        <span class="redfont">我是hello,index.jsx</span>
+      <div>
+        <h-switch></h-switch>
+        <div class="hello-wrap">
+          <span class="redfont">我是hello,index.jsx</span>
+        </div>
       </div>
     );
   },

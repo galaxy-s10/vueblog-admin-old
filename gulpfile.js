@@ -2,6 +2,8 @@ var gulp = require("gulp");
 var ts = require("gulp-typescript");
 var clean = require("gulp-clean");
 var babel = require("gulp-babel");
+var less = require("gulp-less");
+var path = require("path");
 var merge2 = require("merge2");
 var tsProject = require("./tsconfig.json");
 const tsDefaultReporter = ts.reporter.defaultReporter();
@@ -9,6 +11,21 @@ const tsDefaultReporter = ts.reporter.defaultReporter();
 gulp.task("clean-dist", function() {
   // console.log("start clean-dist task");
   return gulp.src("./dist/", { allowEmpty: true }).pipe(clean());
+});
+
+gulp.task("less", function() {
+  return gulp
+    .src("./src/style/*.less")
+    .pipe(
+      less({
+        paths: [path.join(__dirname, "less", "includes")],
+      })
+    )
+    .pipe(gulp.dest('dist/style'));
+    // .pipe(gulp.dest(function(file){
+    //   console.log(file.path);
+    //   return path.join(__dirname,`dist/style${file}`)
+    // }));
 });
 
 const tsFiles = [
@@ -51,7 +68,7 @@ gulp.task("compile", function() {
 
 gulp.task(
   "default",
-  gulp.series("clean-dist", "compile", (done) => {
+  gulp.series("clean-dist", "less", "compile", (done) => {
     console.log("ok");
     done();
   })
