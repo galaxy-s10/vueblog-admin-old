@@ -1,5 +1,5 @@
 import Btn from './btn';
-import Btn2 from './btn2';
+import Btn2 from './btn2/index';
 // import App from './backdoor/index';
 // import App from '../dist/backdoor/index';
 // import App from '../dist/hello/index';
@@ -10,7 +10,7 @@ function hello(compiler: string) {
 }
 hello("TypeScript");
 console.log(Btn());
-console.log(Btn2());
+// console.log(Btn2);
 
 // console.log('object');
 // import './a.less';

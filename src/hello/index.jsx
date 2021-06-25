@@ -1,15 +1,17 @@
+import "./index.less";
+// import "./index.css";
 export default {
   components: {},
   data() {
     return {};
   },
-  render(){
+  render() {
     console.log();
     return (
-      <div>
-        我是hello,index.jsx
+      <div class="hello-wrap">
+        <span class="redfont">我是hello,index.jsx</span>
       </div>
-    )
+    );
   },
   computed: {},
   created() {},
