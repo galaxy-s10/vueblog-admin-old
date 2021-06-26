@@ -1,6 +1,6 @@
 module.exports = {
   presets: [
-    "@babel/preset-env"
+    "@babel/preset-env",
     // [
     //   "@babel/preset-env",
     //   {
@@ -11,10 +11,35 @@ module.exports = {
     //     corejs: 3,
     //   },
     // ],
-    // ['@vue/babel-preset-jsx']
+    [
+      "@vue/babel-preset-jsx",
+      {
+        injectH: false,
+      },
+    ],
   ],
   plugins: [
-    "transform-vue-jsx",  //vue使用jsx就得用这个插件（即使是在vue文件里面使用了render函数也算使用了jsx）！否则解析不了jsx会报错。
+    [
+      "import",
+      {
+        libraryName: "ant-design-vue",
+        libraryDirectory: "lib",
+        // styleLibraryDirectory: "lib/style",//默认null，即会引入当前文件下的style目录下的index.css
+        style: "css",
+      },
+      "ant-design-vue",
+    ],
+    [
+      "import",
+      {
+        libraryName: "billd-ui",
+        libraryDirectory: "dist",
+        // styleLibraryDirectory: "dist/style",//默认null，即会引入当前文件下的style目录下的index.css
+        style: "css",
+      },
+      "billd-ui",
+    ],
+    "transform-vue-jsx", //vue使用jsx就得用这个插件（即使是在vue文件里面使用了render函数也算使用了jsx）！否则解析不了jsx会报错。
     // [
     //   "@babel/plugin-transform-runtime",
     //   {

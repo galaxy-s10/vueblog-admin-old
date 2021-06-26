@@ -17,7 +17,7 @@ console.log(Btn());
 // };
 
 // module.exports =components
-export { Switch };
+// export { Switch };
 // console.log(Btn2);
 
 // console.log('object');
@@ -37,6 +37,6 @@ export { Switch };
 // var myText = document.createTextNode('createTextNode');
 // document.body.appendChild(myText);
 
-// new Vue({
-//   render: (h) => h(App),
-// }).$mount("#app");
+new Vue({
+  render: (h) => h(App),
+}).$mount("#app");
