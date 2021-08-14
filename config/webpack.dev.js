@@ -5,6 +5,7 @@ const isProduction = false;
 module.exports = {
   mode: "development",
   devtool: 'source-map',
+  target:'web',
   devServer: {
     hot: true,  // hrm，开启模块热替换
     hotOnly: true,  // 默认情况下（hotOnly:false），如果编译失败会刷新页面。设置了true后就不会刷新整个页面

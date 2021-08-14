@@ -20,7 +20,7 @@ const commonConfig = function(isProduction) {
     // entry: './src/main.js',
     entry: {
       main: {
-        import: "./src/index.ts",
+        import: "./src/main.js",
         // filename: 'output-[name]-bundle.js'
       },
       md: {
@@ -65,16 +65,7 @@ const commonConfig = function(isProduction) {
     },
     resolve: {
       //解析路径
-      extensions: [
-        ".wasm",
-        ".mjs",
-        ".js",
-        ".json",
-        ".jsx",
-        ".ts",
-        ".tsx",
-        ".vue",
-      ], //解析扩展名
+      extensions: [".wasm", ".mjs", ".js", ".json", ".jsx", ".ts", ".vue"], //解析扩展名
       alias: {
         "@": path.resolve(__dirname, "../src"), //设置路径别名
       },
@@ -160,30 +151,6 @@ const commonConfig = function(isProduction) {
     module: {
       // loader执行顺序：从下往上，从右往左
       rules: [
-        // {
-        //   test: /\.tsx?$/,
-        //   exclude: /node_modules/,
-        //   use: {
-        //     loader: "ts-loader",
-        //   },
-        // },
-        // { test: /\.ts$/, loader: "ts-loader" },
-        {
-          test: /\.ts$/,
-          use: [
-            { loader: "babel-loader" },
-            { loader: "ts-loader", options: { appendTsxSuffixTo: [/\.vue$/] } },
-          ],
-          // loader: "babel-loader!ts-loader",
-        },
-        {
-          test: /\.tsx$/,
-          use: [
-            { loader: "babel-loader" },
-            { loader: "ts-loader", options: { appendTsxSuffixTo: [/\.vue$/] } },
-          ],
-          // loader: "babel-loader!ts-loader",
-        },
         {
           test: /\.md?$/,
           exclude: /node_modules/,
