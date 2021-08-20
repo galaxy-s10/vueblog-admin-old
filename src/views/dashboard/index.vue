@@ -26,7 +26,10 @@
     <i-button @click="modal1">a</i-button>
     <hss-modal :val="modalVal" @hssModalOk="ok" @hssModalCancel="cancel"></hss-modal>-->
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div ref="echartDemo" style="width: 600px; height: 400px; margin: 10px auto"></div>
+    <div
+      ref="echartDemo"
+      style="width: 600px; height: 400px; margin: 10px auto"
+    ></div>
   </div>
 </template>
 
@@ -42,19 +45,19 @@ export default {
       // option.xAxis.data
       option: {
         title: {
-          text: "流量概况"
+          text: "流量概况",
           // subtext:'subtext'
         },
         tooltip: {
-          trigger: "axis"
+          trigger: "axis",
         },
         legend: {
-          data: ["访问量", "访客量"]
+          data: ["访问量", "访客量"],
         },
         xAxis: {
           boundaryGap: false,
           data: [],
-          axisLabel: { interval: 0 }
+          axisLabel: { interval: 0 },
           // data: [
           //   "2021-02-01",
           //   "2021-02-02",
@@ -79,8 +82,8 @@ export default {
             //   ],
             // },
             markLine: {
-              data: [{ type: "average", name: "平均值" }]
-            }
+              data: [{ type: "average", name: "平均值" }],
+            },
           },
           {
             name: "访客量",
@@ -94,32 +97,31 @@ export default {
             //   ],
             // },
             markLine: {
-              data: [{ type: "average", name: "平均值" }]
-            }
-          }
-        ]
+              data: [{ type: "average", name: "平均值" }],
+            },
+          },
+        ],
       },
       val: "10",
       modalVal: false,
       masonryParams: {
         column: 2,
-        gap: 10
+        gap: 10,
       },
       params: {
         pageSize: 10,
-        nowPage: 1
+        nowPage: 1,
       },
       articleList: [],
       imgLoadNum: 0,
       isLoad: false,
-      showMasonry: false
+      showMasonry: false,
     };
   },
   computed: {
-    ...mapState({ user: v => v.user })
+    ...mapState({ user: (v) => v.user }),
   },
-  created() {
-  },
+  created() {},
   mounted() {
     console.log("mountedmountedmounted");
     this.getVisitInfo();
@@ -146,7 +148,7 @@ export default {
         this.isLoad = false;
         this.masonry();
       }
-    }
+    },
   },
   methods: {
     getDay(day) {
@@ -177,10 +179,10 @@ export default {
       this.$http({
         url: "/api/log/getRangeVisitInfo",
         method: "get",
-        params
-      }).then(res => {
+        params,
+      }).then((res) => {
         console.log(res);
-        res.data.rangeData.forEach(i => {
+        res.data.rangeData.forEach((i) => {
           this.option.xAxis.data.push(i.today);
           this.option.series[0].data.push(i.allVisiteTotal);
           this.option.series[1].data.push(i.allVisitorTotal);
@@ -291,7 +293,7 @@ export default {
       // }, 300);
     },
     ppp() {
-      this.$refs.form1.handleSubmit(x => {
+      this.$refs.form1.handleSubmit((x) => {
         console.log("ooo");
         console.log(x);
       });
@@ -322,8 +324,8 @@ export default {
       //必须，因为这相当于传统的父子传值，子组件的val和hssIptVal都依赖父组件的val
       this.val = v;
       // do some things
-    }
-  }
+    },
+  },
 };
 </script>
 

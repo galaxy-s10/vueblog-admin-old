@@ -4,12 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build1": "webpack --config ./config/webpack.common.js --env production",
-    "build2": "webpack --config ./config/webpack.common.js --env production --profile --json=stats.json",
-    "build": "webpack --config ./hss.config.js",
-    "dev": "webpack serve --config ./hss.config.js",
-    "dev1": "webpack serve --config ./config/webpack.common.js --env development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack serve --config ./config/webpack.common.js --env development",
+    "build": "webpack --config ./config/webpack.common.js --env production",
+    "build1": "webpack --config ./config/webpack.common.js --env production --profile --json=stats.json"
   },
   "keywords": [],
   "author": "",
