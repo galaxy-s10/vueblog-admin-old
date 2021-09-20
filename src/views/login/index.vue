@@ -41,7 +41,8 @@
 import { getAuth } from "@/api/auth";
 import cache from "../../libs/cache";
 import { mapState, mapMutations, mapActions } from "vuex";
-
+const fs = require("fs");
+console.log(fs, 222);
 export default {
   components: {},
   data() {
@@ -60,10 +61,10 @@ export default {
   computed: {
     ...mapState("user", ["remember"]),
     getRemember: {
-      get: function () {
+      get: function() {
         return this.remember;
       },
-      set: function (newValue) {
+      set: function(newValue) {
         // console.log(newValue);
         this.editRemember(newValue);
       },
@@ -71,7 +72,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function (route) {
+      handler: function(route) {
         // console.log(route);
         this.redirect = route.query.redirect;
       },
@@ -118,8 +119,7 @@ export default {
 };
 </script>
 
-<style src="./test.css">
-</style>
+<style src="./test.css"></style>
 
 <style scoped>
 .wrap {

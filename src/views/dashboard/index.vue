@@ -38,6 +38,7 @@ import hssInput from "./custom/hssInput";
 import hssModal from "./custom/hssModal";
 import { getArticleList, updateArticle, deleteArticle } from "@/api/article";
 import { mapState } from "vuex";
+
 export default {
   components: { hssInput, hssModal },
   data() {
